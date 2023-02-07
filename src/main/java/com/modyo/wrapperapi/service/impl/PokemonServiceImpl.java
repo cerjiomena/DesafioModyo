@@ -1,0 +1,86 @@
+package com.modyo.wrapperapi.service.impl;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import com.modyo.wrapperapi.dto.PokemonDTO;
+import com.modyo.wrapperapi.error.AplicacionExcepcion;
+import com.modyo.wrapperapi.integracion.PokemonIntegracionService;
+import com.modyo.wrapperapi.modelo.Pokemons;
+import com.modyo.wrapperapi.modelo.Type;
+import com.modyo.wrapperapi.modelo.Ability;
+import com.modyo.wrapperapi.modelo.DetallePokemon;
+import com.modyo.wrapperapi.modelo.Pokemon;
+import com.modyo.wrapperapi.service.PokemonService;
+
+@Service
+public class PokemonServiceImpl implements PokemonService {
+	
+	@Autowired
+	private PokemonIntegracionService pokemonIntegracionService;
+	
+	List<PokemonDTO> listado;
+
+	/**
+	 * {@link PokemonService#obtenerListadoPokemonsPaginado(Pageable)}
+	 */
+	public Page<PokemonDTO> obtenerListadoPokemonsPaginado(Pageable pageable) throws AplicacionExcepcion {
+		
+		
+		Page<PokemonDTO> pages = null;
+		int pageSize = pageable.getPageSize();
+        int currentPage = pageable.getPageNumber();
+        int startItem = currentPage * pageSize;
+        List<PokemonDTO> list;
+		Pokemons pokemons = pokemonIntegracionService.obtenerListadoPaginadoPokemons();
+		
+		if(pokemons != null) {
+			
+			listado = new ArrayList<PokemonDTO>();
+			
+			for (Pokemon pokemon : pokemons.getResults()) {
+				
+				DetallePokemon detallePokemon =  pokemonIntegracionService.obtenerDetallePokemon(pokemon.getUrl());
+				PokemonDTO pokemonDTO = new PokemonDTO();
+				pokemonDTO.setPeso(detallePokemon.getWeight());
+				StringBuffer sb = new StringBuffer();
+				for (Type type : detallePokemon.getTypes()) {	
+					sb.append(type.getType().getName() + " ");
+				}
+				pokemonDTO.setTipo(sb.toString());
+				List<String> habilidades = new ArrayList<String>();
+				for(Ability ability : detallePokemon.getAbilities()) {
+					habilidades.add(ability.getAbility().getName());
+				}
+				pokemonDTO.setHabilidades(habilidades.toString());
+				
+				listado.add(pokemonDTO);
+			}
+			
+			if (listado.size() < startItem) {
+                list = Collections.emptyList();
+            } else {
+                int toIndex = Math.min(startItem + pageSize, listado.size());
+                list = listado.subList(startItem, toIndex);
+            }
+			
+			pages = new PageImpl<PokemonDTO>(list, PageRequest.of(currentPage, pageSize), Long.valueOf(listado.size()).longValue());
+			
+		}
+		
+		
+	
+
+		return pages;
+	}
+
+}

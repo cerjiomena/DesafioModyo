@@ -3,9 +3,9 @@ package com.modyo.wrapperapi.modelo;
 import lombok.Data;
 
 @Data
-public class Pokemon {
-
+public class CommonProperties {
+	
 	private String name;
 	private String url;
-	private DetallePokemon detallePokemon;
+
 }

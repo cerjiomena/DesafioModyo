@@ -16,10 +16,13 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation("org.springframework.boot:spring-boot-starter-webflux")
+	// https://mvnrepository.com/artifact/org.springframework.data/spring-data-commons
+	implementation group: 'org.springframework.data', name: 'spring-data-commons', version: '3.0.1'
 	testImplementation("io.projectreactor:reactor-test")
 	// https://mvnrepository.com/artifact/org.projectlombok/lombok
     compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.24'
-	
+    // https://mvnrepository.com/artifact/org.hsqldb/hsqldb
+	testImplementation group: 'org.hsqldb', name: 'hsqldb', version: '2.7.1'
 	
 }
 
