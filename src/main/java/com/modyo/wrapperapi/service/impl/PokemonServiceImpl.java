@@ -21,64 +21,64 @@ import com.modyo.wrapperapi.modelo.Ability;
 import com.modyo.wrapperapi.modelo.DetallePokemon;
 import com.modyo.wrapperapi.modelo.Pokemon;
 import com.modyo.wrapperapi.service.PokemonService;
+import com.modyo.wrapperapi.util.Constantes;
 
 @Service
 public class PokemonServiceImpl implements PokemonService {
-	
+
 	@Autowired
 	private PokemonIntegracionService pokemonIntegracionService;
-	
+
 	List<PokemonDTO> listado;
 
 	/**
 	 * {@link PokemonService#obtenerListadoPokemonsPaginado(Pageable)}
 	 */
 	public Page<PokemonDTO> obtenerListadoPokemonsPaginado(Pageable pageable) throws AplicacionExcepcion {
-		
-		
+
 		Page<PokemonDTO> pages = null;
 		int pageSize = pageable.getPageSize();
-        int currentPage = pageable.getPageNumber();
-        int startItem = currentPage * pageSize;
-        List<PokemonDTO> list;
+		int currentPage = pageable.getPageNumber();
+		int startItem = currentPage * pageSize;
+		List<PokemonDTO> list;
 		Pokemons pokemons = pokemonIntegracionService.obtenerListadoPaginadoPokemons();
-		
-		if(pokemons != null) {
-			
+
+		if (pokemons != null) {
+
 			listado = new ArrayList<PokemonDTO>();
-			
+
 			for (Pokemon pokemon : pokemons.getResults()) {
-				
-				DetallePokemon detallePokemon =  pokemonIntegracionService.obtenerDetallePokemon(pokemon.getUrl());
+
+				DetallePokemon detallePokemon = pokemonIntegracionService.obtenerDetallePokemon(pokemon.getUrl());
 				PokemonDTO pokemonDTO = new PokemonDTO();
 				pokemonDTO.setPeso(detallePokemon.getWeight());
 				StringBuffer sb = new StringBuffer();
-				for (Type type : detallePokemon.getTypes()) {	
-					sb.append(type.getType().getName() + " ");
+				for (Type type : detallePokemon.getTypes()) {
+					sb.append(type.getType().getName() + Constantes.BLANK_SPACE);
 				}
 				pokemonDTO.setTipo(sb.toString());
 				List<String> habilidades = new ArrayList<String>();
-				for(Ability ability : detallePokemon.getAbilities()) {
+				for (Ability ability : detallePokemon.getAbilities()) {
 					habilidades.add(ability.getAbility().getName());
 				}
+				pokemonDTO.setFoto(detallePokemon.getSprites().getFront_default());
 				pokemonDTO.setHabilidades(habilidades.toString());
 				
+
 				listado.add(pokemonDTO);
 			}
-			
+
 			if (listado.size() < startItem) {
-                list = Collections.emptyList();
-            } else {
-                int toIndex = Math.min(startItem + pageSize, listado.size());
-                list = listado.subList(startItem, toIndex);
-            }
-			
-			pages = new PageImpl<PokemonDTO>(list, PageRequest.of(currentPage, pageSize), Long.valueOf(listado.size()).longValue());
-			
+				list = Collections.emptyList();
+			} else {
+				int toIndex = Math.min(startItem + pageSize, listado.size());
+				list = listado.subList(startItem, toIndex);
+			}
+
+			pages = new PageImpl<PokemonDTO>(list, PageRequest.of(currentPage, pageSize),
+					Long.valueOf(listado.size()).longValue());
+
 		}
-		
-		
-	
 
 		return pages;
 	}
