@@ -7,6 +7,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
@@ -28,7 +30,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import jakarta.servlet.http.HttpServletRequest;
+
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
@@ -49,7 +51,7 @@ public class PokemonRestController {
 		@ApiResponse(code = 403, message = "Forbidden"),
 		@ApiResponse(code = 400, message = "Bad Request"),
 		@ApiResponse(code = 401, message = "Unauthorized"),
-		@ApiResponse(code = -200, message = "Error communication")
+		@ApiResponse(code = -200, message = "Error of communication")
 	})
 	public ResponseEntity<Map<String, Object>> obtenerListadoPokemonsPaginado(HttpServletRequest request,
 			@ApiParam(value = "page", required = true, example = "1") @RequestParam("page") Optional<Integer> page,

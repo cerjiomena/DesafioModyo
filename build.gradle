@@ -1,7 +1,7 @@
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '3.0.2'
-	id 'io.spring.dependency-management' version '1.1.0'
+	id 'org.springframework.boot' version '2.7.3'
+	id 'io.spring.dependency-management' version '1.0.13.RELEASE'
 }
 
 group = 'com.modyo'
@@ -18,15 +18,11 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-webflux")
 	// https://mvnrepository.com/artifact/org.springframework.data/spring-data-commons
 	implementation group: 'org.springframework.data', name: 'spring-data-commons', version: '3.0.1'
-	testImplementation("io.projectreactor:reactor-test")
+	
 	// https://mvnrepository.com/artifact/org.projectlombok/lombok
     compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.24'
-    // https://mvnrepository.com/artifact/org.hsqldb/hsqldb
-	testImplementation group: 'org.hsqldb', name: 'hsqldb', version: '2.7.1'
-	// https://mvnrepository.com/artifact/io.springfox/springfox-swagger2
-	implementation group: 'io.springfox', name: 'springfox-swagger2', version: '3.0.0'
-	// https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui
-	implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '3.0.0'
+	
+	implementation group: 'io.springfox', name: 'springfox-boot-starter', version: '3.0.0'
 
 }
 
