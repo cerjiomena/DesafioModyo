@@ -39,7 +39,7 @@ public class PokemonRestControllerTest {
 		 
 		 log.debug(response.getContentAsString());
 			
-	    assertEquals(3,json.getInt("numberOfElements"));
+	     assertEquals(3,json.getInt("numberOfElements"));
 		
 	}
 

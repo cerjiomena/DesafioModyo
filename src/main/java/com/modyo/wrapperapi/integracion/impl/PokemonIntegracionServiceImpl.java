@@ -10,17 +10,12 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.modyo.wrapperapi.error.AplicacionExcepcion;
 import com.modyo.wrapperapi.integracion.PokemonIntegracionService;
 import com.modyo.wrapperapi.modelo.DetallePokemon;
-import com.modyo.wrapperapi.modelo.Pokemon;
 import com.modyo.wrapperapi.modelo.Pokemons;
 import com.modyo.wrapperapi.util.MensajeError;
 
-import io.netty.handler.ssl.SslHandshakeTimeoutException;
 import io.netty.handler.timeout.ReadTimeoutException;
 import io.netty.handler.timeout.WriteTimeoutException;
 import lombok.extern.slf4j.Slf4j;

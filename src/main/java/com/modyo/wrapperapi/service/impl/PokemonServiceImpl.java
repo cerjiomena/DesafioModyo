@@ -2,7 +2,6 @@ package com.modyo.wrapperapi.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,13 +14,12 @@ import org.springframework.stereotype.Service;
 import com.modyo.wrapperapi.dto.PokemonDTO;
 import com.modyo.wrapperapi.error.AplicacionExcepcion;
 import com.modyo.wrapperapi.integracion.PokemonIntegracionService;
-import com.modyo.wrapperapi.modelo.Pokemons;
-import com.modyo.wrapperapi.modelo.Type;
 import com.modyo.wrapperapi.modelo.Ability;
 import com.modyo.wrapperapi.modelo.DetallePokemon;
 import com.modyo.wrapperapi.modelo.Pokemon;
+import com.modyo.wrapperapi.modelo.Pokemons;
+import com.modyo.wrapperapi.modelo.Type;
 import com.modyo.wrapperapi.service.PokemonService;
-import com.modyo.wrapperapi.util.Constantes;
 
 @Service
 public class PokemonServiceImpl implements PokemonService {
@@ -52,11 +50,11 @@ public class PokemonServiceImpl implements PokemonService {
 				DetallePokemon detallePokemon = pokemonIntegracionService.obtenerDetallePokemon(pokemon.getUrl());
 				PokemonDTO pokemonDTO = new PokemonDTO();
 				pokemonDTO.setPeso(detallePokemon.getWeight());
-				StringBuffer sb = new StringBuffer();
+				List<String> tipos = new ArrayList<String>();
 				for (Type type : detallePokemon.getTypes()) {
-					sb.append(type.getType().getName() + Constantes.BLANK_SPACE);
+					tipos.add(type.getType().getName());
 				}
-				pokemonDTO.setTipo(sb.toString());
+				pokemonDTO.setTipo(tipos.toString());
 				List<String> habilidades = new ArrayList<String>();
 				for (Ability ability : detallePokemon.getAbilities()) {
 					habilidades.add(ability.getAbility().getName());
