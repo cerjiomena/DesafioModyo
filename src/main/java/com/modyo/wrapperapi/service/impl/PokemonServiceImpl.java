@@ -49,6 +49,7 @@ public class PokemonServiceImpl implements PokemonService {
 
 				DetallePokemon detallePokemon = pokemonIntegracionService.obtenerDetallePokemon(pokemon.getUrl());
 				PokemonDTO pokemonDTO = new PokemonDTO();
+				pokemonDTO.setNombre(detallePokemon.getName());
 				pokemonDTO.setPeso(detallePokemon.getWeight());
 				List<String> tipos = new ArrayList<String>();
 				for (Type type : detallePokemon.getTypes()) {

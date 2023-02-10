@@ -7,6 +7,7 @@ import lombok.Data;
 @Data
 public class DetallePokemon {
 	
+	private String name;
 	private String foto;
 	private List<Ability> abilities;
 	private String weight;
