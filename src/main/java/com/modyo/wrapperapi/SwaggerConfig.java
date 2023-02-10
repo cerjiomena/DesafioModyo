@@ -17,7 +17,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Configuration
 @EnableSwagger2
 public class SwaggerConfig {
-
     private ApiInfo apiInfo() {
         return new ApiInfo("API REST WRAPPER POKEMONS",
                 "API for Challenge",
