@@ -60,6 +60,8 @@ public class PokemonRestController {
 		if(log.isDebugEnabled())
 			log.debug(">> Entrando a PokemonRestController.obtenerListadoPokemonsPaginado << ");
 		
+	
+		
 		Locale local = request.getLocale();
 		final int currentPage = page.orElse(1);
 		final int pageSize = size.orElse(10);
@@ -67,6 +69,9 @@ public class PokemonRestController {
 		List<PokemonDTO> pokemons = null;
 		String mensaje = null;
 		Map<String, Object> response = new HashMap<>();
+		
+		log.debug("Pagina : " + currentPage);
+		log.debug("Tamanio: " + pageSize);
 		
 		response.put(Constantes.TIMESTAP, new Timestamp(System.currentTimeMillis()));
 		

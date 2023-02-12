@@ -2,7 +2,6 @@ package com.modyo.wrapperapi.service.impl;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.Iterator;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
