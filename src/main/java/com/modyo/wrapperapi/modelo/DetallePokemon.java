@@ -13,5 +13,6 @@ public class DetallePokemon {
 	private String weight;
 	private List<Type> types;
 	private Sprite sprites;
+	private CommonProperties species;
 
 }

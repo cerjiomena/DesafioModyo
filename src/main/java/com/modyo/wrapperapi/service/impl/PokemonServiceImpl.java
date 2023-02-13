@@ -21,6 +21,11 @@ import com.modyo.wrapperapi.modelo.Pokemons;
 import com.modyo.wrapperapi.modelo.Type;
 import com.modyo.wrapperapi.service.PokemonService;
 
+/**
+ * Clase de servicio para tratar la informacion de los pokemons
+ * @author Sergio Mena
+ *
+ */
 @Service
 public class PokemonServiceImpl implements PokemonService {
 
