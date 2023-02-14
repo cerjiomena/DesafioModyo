@@ -28,7 +28,7 @@ public class DesafioModyoApplication {
 	@Bean
 	public RedisCacheManager cacheManager(RedisConnectionFactory connectionFactory) {
 		RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
-				.prefixCacheNameWith(this.getClass().getPackageName() + ".").entryTtl(Duration.ofHours(1))
+				.prefixCacheNameWith(this.getClass().getPackage().getName() + ".").entryTtl(Duration.ofHours(1))
 				.disableCachingNullValues();
 
 		return RedisCacheManager.builder(connectionFactory).cacheDefaults(config).build();
