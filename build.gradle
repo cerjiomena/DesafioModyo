@@ -32,6 +32,10 @@ dependencies {
 	// https://mvnrepository.com/artifact/org.hsqldb/hsqldb
 	implementation group: 'org.hsqldb', name: 'hsqldb', version: '2.4.0'
 	
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis-reactive'
+
+	
+	
 
 }
 
