@@ -8,7 +8,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -31,8 +30,6 @@ import com.modyo.wrapperapi.service.PokemonService;
 import com.modyo.wrapperapi.util.Constantes;
 import com.modyo.wrapperapi.util.MensajeError;
 
-import lombok.extern.slf4j.Slf4j;
-
 /**
  * Clase de servicio para tratar la informacion de los pokemons
  * 
@@ -40,7 +37,6 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Service
-@Slf4j
 public class PokemonServiceImpl implements PokemonService {
 
 	@Autowired
