@@ -31,7 +31,7 @@ public class PokemonRestControllerTest {
 	public void debeObtenerListadoPaginado() throws Exception {
 		log.debug("Entrando a debeObtenerListadoPaginado");
 		
-		 MvcResult result =  mockMvc.perform(get("/api/v1/challenge/listar?page=1&size=3&esNuevaPeticion=true"))
+		 MvcResult result =  mockMvc.perform(get("/api/v1/challenge/listar?page=1&size=3"))
 		.andExpect(status().isOk()).andReturn();
 		
 		 MockHttpServletResponse response = result.getResponse();
@@ -77,6 +77,23 @@ public class PokemonRestControllerTest {
 		 log.debug(response.getContentAsString());
 			
 		 assertEquals(-200,json.getInt("status"));
+		
+	}
+	
+	@Test
+	public void debeObtenerListadoPaginadoError() throws Exception {
+		log.debug("Entrando a debeObtenerListadoPaginado");
+		
+		 MvcResult result =  mockMvc.perform(get("/api/v1/challenge/listar?page=100000000&size=3"))
+		.andExpect(status().isOk()).andReturn();
+		
+		 MockHttpServletResponse response = result.getResponse();
+		 
+		 JSONObject json = new JSONObject(response.getContentAsString());
+		 
+		 log.debug(response.getContentAsString());
+			
+	     assertEquals(0,json.getInt("numberOfElements"));
 		
 	}
 

@@ -66,7 +66,7 @@ public class PokemonServiceImpl implements PokemonService {
 
 			listado = new ArrayList<PokemonDTO>();
 			
-			if(pokemons.getResults() != null) {
+			if(pokemons.getResults() != null && !pokemons.getResults().isEmpty()) {
 				
 				for (Pokemon pokemon : pokemons.getResults()) {
 
@@ -100,6 +100,8 @@ public class PokemonServiceImpl implements PokemonService {
 				pages = new PageImpl<PokemonDTO>(list, PageRequest.of(currentPage, pageSize),
 						Long.valueOf(listado.size()).longValue());	
 			}
+			
+			pages = Page.empty(pageable);
 
 		} 
 
