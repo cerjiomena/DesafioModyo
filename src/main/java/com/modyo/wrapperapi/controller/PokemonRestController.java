@@ -103,7 +103,7 @@ public class PokemonRestController {
 	@PostMapping(value = "obtenerDetalle", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiOperation(value = "Servicio web para obtener el detalle del pokemon")
 	public ResponseEntity<Map<String, Object>> obtenerDetallePokemon(HttpServletRequest request,
-			@ApiParam(value = "url", required = true, example = "") @RequestParam("url") Optional<String> url){
+			@ApiParam(value = "url", required = true, example = "https://pokeapi.co/api/v2/pokemon/2/") @RequestParam("url") Optional<String> url){
 		
 		if(log.isDebugEnabled())
 			log.debug(">> Entrando a PokemonRestController.obtenerDetallePokemon << ");
