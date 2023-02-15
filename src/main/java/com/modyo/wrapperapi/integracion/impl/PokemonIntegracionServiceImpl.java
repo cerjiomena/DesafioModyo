@@ -4,8 +4,6 @@ import java.time.Duration;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
@@ -18,7 +16,6 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 import com.modyo.wrapperapi.error.AplicacionExcepcion;
 import com.modyo.wrapperapi.integracion.PokemonIntegracionService;
 import com.modyo.wrapperapi.modelo.DetallePokemon;
-import com.modyo.wrapperapi.modelo.Evolution;
 import com.modyo.wrapperapi.modelo.FlavorText;
 import com.modyo.wrapperapi.modelo.Pokemons;
 import com.modyo.wrapperapi.modelo.Species;

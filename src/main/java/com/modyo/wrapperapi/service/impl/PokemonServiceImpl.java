@@ -65,40 +65,43 @@ public class PokemonServiceImpl implements PokemonService {
 		if (pokemons != null) {
 
 			listado = new ArrayList<PokemonDTO>();
+			
+			if(pokemons.getResults() != null) {
+				
+				for (Pokemon pokemon : pokemons.getResults()) {
 
-			for (Pokemon pokemon : pokemons.getResults()) {
+					DetallePokemon detallePokemon = pokemonIntegracionService.obtenerDetallePokemon(pokemon.getUrl());
+					PokemonDTO pokemonDTO = new PokemonDTO();
+					pokemonDTO.setNombre(detallePokemon.getName());
+					pokemonDTO.setPeso(detallePokemon.getWeight());
+					List<String> tipos = new ArrayList<String>();
+					for (Type type : detallePokemon.getTypes()) {
+						tipos.add(type.getType().getName());
+					}
+					pokemonDTO.setTipo(tipos.toString());
+					List<String> habilidades = new ArrayList<String>();
+					for (Ability ability : detallePokemon.getAbilities()) {
+						habilidades.add(ability.getAbility().getName());
+					}
+					pokemonDTO.setFoto(detallePokemon.getSprites().getFront_default());
+					pokemonDTO.setHabilidades(habilidades.toString());
+					pokemonDTO.setUrlDetalle(pokemon.getUrl());
 
-				DetallePokemon detallePokemon = pokemonIntegracionService.obtenerDetallePokemon(pokemon.getUrl());
-				PokemonDTO pokemonDTO = new PokemonDTO();
-				pokemonDTO.setNombre(detallePokemon.getName());
-				pokemonDTO.setPeso(detallePokemon.getWeight());
-				List<String> tipos = new ArrayList<String>();
-				for (Type type : detallePokemon.getTypes()) {
-					tipos.add(type.getType().getName());
+					listado.add(pokemonDTO);
 				}
-				pokemonDTO.setTipo(tipos.toString());
-				List<String> habilidades = new ArrayList<String>();
-				for (Ability ability : detallePokemon.getAbilities()) {
-					habilidades.add(ability.getAbility().getName());
-				}
-				pokemonDTO.setFoto(detallePokemon.getSprites().getFront_default());
-				pokemonDTO.setHabilidades(habilidades.toString());
-				pokemonDTO.setUrlDetalle(pokemon.getUrl());
 
-				listado.add(pokemonDTO);
+				if (listado.size() < startItem) {
+					list = Collections.emptyList();
+				} else {
+					int toIndex = Math.min(startItem + pageSize, listado.size());
+					list = listado.subList(startItem, toIndex);
+				}
+
+				pages = new PageImpl<PokemonDTO>(list, PageRequest.of(currentPage, pageSize),
+						Long.valueOf(listado.size()).longValue());	
 			}
 
-			if (listado.size() < startItem) {
-				list = Collections.emptyList();
-			} else {
-				int toIndex = Math.min(startItem + pageSize, listado.size());
-				list = listado.subList(startItem, toIndex);
-			}
-
-			pages = new PageImpl<PokemonDTO>(list, PageRequest.of(currentPage, pageSize),
-					Long.valueOf(listado.size()).longValue());
-
-		}
+		} 
 
 		return pages;
 	}
