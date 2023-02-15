@@ -83,6 +83,7 @@ public class PokemonServiceImpl implements PokemonService {
 				}
 				pokemonDTO.setFoto(detallePokemon.getSprites().getFront_default());
 				pokemonDTO.setHabilidades(habilidades.toString());
+				pokemonDTO.setUrlDetalle(pokemon.getUrl());
 
 				listado.add(pokemonDTO);
 			}

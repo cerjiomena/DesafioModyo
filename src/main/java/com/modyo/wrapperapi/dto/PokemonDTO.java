@@ -10,5 +10,6 @@ public class PokemonDTO {
 	private String tipo;
 	private String peso;
 	private String habilidades;
+	private String urlDetalle;
 
 }
