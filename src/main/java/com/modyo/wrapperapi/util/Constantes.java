@@ -14,7 +14,7 @@ public class Constantes {
     public static final String NUMBER_OF_ELEMENTS = "numberOfElements";
     public static final String LANGUAGE = "es";
     public static final String NODE_SPECIES = "species";
-    
+    public static final String DETAIL_POKEMON = "detail";
     
 
 }

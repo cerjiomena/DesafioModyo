@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,8 +24,11 @@ public class PokemonIntegracionServiceImplTest {
 	@Autowired
 	private PokemonIntegracionService pokemonService;
 	
+	/**
+	 * Prueba para obtener el listado de pokemons
+	 * @throws AplicacionExcepcion
+	 */
 	@Test
-	@Disabled
 	public void debeObtenerListadoPokemons() throws AplicacionExcepcion {
 		log.debug("Entrando a debeObtenerListadoPokemons");
 		Pokemons pokemons =  pokemonService.obtenerListadoPaginadoPokemons();
@@ -35,8 +37,11 @@ public class PokemonIntegracionServiceImplTest {
 		
 	}
 	
+	/**
+	 * Prueba para obtener el detalle pokemon
+	 * @throws AplicacionExcepcion
+	 */
 	@Test
-	@Disabled
 	public void debeObtenerDetallePokemon() throws AplicacionExcepcion {
 		log.debug("Entrando a debeObtenerDetallePokemon");
 		
@@ -46,8 +51,11 @@ public class PokemonIntegracionServiceImplTest {
 		
 	}
 	
+	/**
+	 * Prueba para obtener descripciones pokemon
+	 * @throws AplicacionExcepcion
+	 */
 	@Test
-	@Disabled
 	public void debeObtenerDescripcionesPokemon() throws AplicacionExcepcion {
 		log.debug("Entrando a debeObtenerDescripcionesPokemon");
 		
@@ -57,8 +65,11 @@ public class PokemonIntegracionServiceImplTest {
 		
 	}
 	
+	/**
+	 * Prueba para obtener evoluciones
+	 * @throws AplicacionExcepcion
+	 */
 	@Test
-	@Disabled
 	public void debeObtenerEvolucionesPokemon() throws AplicacionExcepcion {
 		log.debug("Entrando a debeObtenerEvolucionesPokemon");
 		
@@ -71,7 +82,6 @@ public class PokemonIntegracionServiceImplTest {
 	 * @throws AplicacionExcepcion 
 	 */
 	@Test
-	@Disabled
 	public void debeObtenerExcepcionEnDetalle() throws AplicacionExcepcion {
 		
 		log.debug("Entrando a debeObtenerExcepcionEnDetalle");
@@ -86,7 +96,6 @@ public class PokemonIntegracionServiceImplTest {
 	 * @throws AplicacionExcepcion 
 	 */
 	@Test
-	@Disabled
 	public void debeObtenerExcepcionEnDescripciones() {
 		
 		log.debug("Entrando a debeObtenerExcepcionEnDetalle");

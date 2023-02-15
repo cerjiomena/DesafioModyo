@@ -2,6 +2,7 @@ package com.modyo.wrapperapi.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.json.JSONObject;
@@ -40,6 +41,42 @@ public class PokemonRestControllerTest {
 		 log.debug(response.getContentAsString());
 			
 	     assertEquals(3,json.getInt("numberOfElements"));
+		
+	}
+	
+	@Test
+	public void debeObtenerDetallePokemon() throws Exception {
+		log.debug("Entrando a debeObtenerListadoPaginado");
+		
+		 MvcResult result =  mockMvc.perform(post("/api/v1/challenge/obtenerDetalle").param("url", "https://pokeapi.co/api/v2/pokemon/2/"))
+		.andExpect(status().isOk()).andReturn();
+		
+		 MockHttpServletResponse response = result.getResponse();
+		 
+		 JSONObject json = new JSONObject(response.getContentAsString());
+		 
+		 log.debug(response.getContentAsString());
+		 
+		 assertEquals(200,json.getInt("status"));
+			
+	    
+		
+	}
+	
+	@Test
+	public void debeObtenerMensajeErrorEnDetallePokemon() throws Exception {
+		log.debug("Entrando a debeObtenerMensajeErrorEnDetallePokemon");
+		
+		 MvcResult result =  mockMvc.perform(post("/api/v1/challenge/obtenerDetalle").param("url", "https://pokeapi.co/api/v2/pokemon/1000000/"))
+		.andExpect(status().isOk()).andReturn();
+		
+		 MockHttpServletResponse response = result.getResponse();
+		 
+		 JSONObject json = new JSONObject(response.getContentAsString());
+		 
+		 log.debug(response.getContentAsString());
+			
+		 assertEquals(-200,json.getInt("status"));
 		
 	}
 

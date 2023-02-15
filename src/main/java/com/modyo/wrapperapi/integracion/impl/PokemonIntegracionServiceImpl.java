@@ -61,17 +61,24 @@ public class PokemonIntegracionServiceImpl implements PokemonIntegracionService 
 		if(log.isDebugEnabled())
 			log.debug("Entrando a PokemonIntegracionServiceImpl.obtenerListadoPaginadoPokemons");
 		
+		Pokemons pokemons = null;
 		
-		Pokemons pokemons = this.webClient.get()
-				.uri(uriPokemon)
-				.retrieve()
-				.bodyToMono(Pokemons.class)
-				.timeout(Duration.ofSeconds(5))
-				.onErrorMap(ReadTimeoutException.class, ex -> new AplicacionExcepcion(MensajeError.ERROR_TIEMPO_ESPERA_OPERACION))
-				.doOnError(WriteTimeoutException.class, ex -> log.error(messageSource.getMessage(
-						MensajeError.ERROR_TIEMPO_ESPERA_OPERACION.getLLaveMensaje(), 
-						null, LocaleContextHolder.getLocale())))
-				.block();
+		try {
+			pokemons = this.webClient.get()
+					.uri(uriPokemon)
+					.retrieve()
+					.bodyToMono(Pokemons.class)
+					.timeout(Duration.ofSeconds(5))
+					.onErrorMap(ReadTimeoutException.class, ex -> new AplicacionExcepcion(MensajeError.ERROR_TIEMPO_ESPERA_OPERACION))
+					.doOnError(WriteTimeoutException.class, ex -> log.error(messageSource.getMessage(
+							MensajeError.ERROR_TIEMPO_ESPERA_OPERACION.getLLaveMensaje(), 
+							null, LocaleContextHolder.getLocale())))
+					.block();
+			
+		} catch (WebClientResponseException e) {
+			
+			throw new AplicacionExcepcion(MensajeError.ERROR_NO_INFO_LISTADO_POKEMONS);
+		}
 		
 	
 		return pokemons;
@@ -170,7 +177,7 @@ public class PokemonIntegracionServiceImpl implements PokemonIntegracionService 
 			
 		} catch (WebClientResponseException e) {
 			
-			throw new AplicacionExcepcion(MensajeError.ERROR_NO_INFO_DESCRIPCIONES);
+			throw new AplicacionExcepcion(MensajeError.ERROR_NO_INFO_EVOLUCIONES);
 		}
 
 				
