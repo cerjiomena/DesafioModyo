@@ -4,7 +4,7 @@ public class Constantes {
 	
 	public static final String BLANK_SPACE = " ";
     public static final String STATUS= "status";
-    public static final String TIMESTAP= "timestap";
+    public static final String TIMESTAMP= "timestamp";
     public static final String MESSAGE= "message";
     public static final int ERROR_VALIDATION = -200;
     public static final String POKEMONS = "pokemons";

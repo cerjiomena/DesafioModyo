@@ -71,7 +71,7 @@ public class PokemonRestController {
 		String mensaje = null;
 		Map<String, Object> response = new HashMap<>();
 		
-		response.put(Constantes.TIMESTAP, new Timestamp(System.currentTimeMillis()));
+		response.put(Constantes.TIMESTAMP, new Timestamp(System.currentTimeMillis()));
 		
 		
 		try {
@@ -112,7 +112,7 @@ public class PokemonRestController {
 		String mensaje = null;
 		Map<String, Object> response = new HashMap<>();
 		
-		response.put(Constantes.TIMESTAP, new Timestamp(System.currentTimeMillis()));
+		response.put(Constantes.TIMESTAMP, new Timestamp(System.currentTimeMillis()));
 		
 		
 		try {
