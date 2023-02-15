@@ -13,6 +13,7 @@ public class Constantes {
     public static final String TOTAL_PAGES = "totalPages";
     public static final String NUMBER_OF_ELEMENTS = "numberOfElements";
     public static final String LANGUAGE = "es";
+    public static final String NODE_SPECIES = "species";
     
     
 

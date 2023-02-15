@@ -33,11 +33,12 @@ public interface PokemonIntegracionService {
 	
 	
 	/**
-	 * Metodo utilizado para obtener la evolucion del pokemon
-	 * @param url
+	 * Metodo utilizado para obtener la cadena de evoluciones en String posteriormente para ser tratada la informacion
+	 * @param url del servicio
+	 * @return Cadena de evoluciones en formato String
 	 * @throws AplicacionExcepcion
 	 */
-	void obtenerEvoluciones(String url) throws AplicacionExcepcion;
+	String obtenerEvoluciones(String url) throws AplicacionExcepcion;
 	
 	
 

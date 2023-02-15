@@ -1,6 +1,8 @@
 package com.modyo.wrapperapi.service.impl;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
 
@@ -12,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import com.modyo.wrapperapi.DesafioModyoApplication;
+import com.modyo.wrapperapi.dto.DetallePokemonDTO;
 import com.modyo.wrapperapi.dto.PokemonDTO;
 import com.modyo.wrapperapi.error.AplicacionExcepcion;
 import com.modyo.wrapperapi.service.PokemonService;
@@ -25,6 +28,10 @@ public class PokemonServiceImplTest {
 	@Autowired
 	private PokemonService pokemonService;
 	
+	/**
+	 * Prueba para obtener los pokemons paginados
+	 * @throws AplicacionExcepcion
+	 */
 	@Test
 	public void debeObtenerPokemonesPaginado() throws AplicacionExcepcion {
 		log.debug("Entrando a debeObtenerPokemonesPaginado");
@@ -49,8 +56,42 @@ public class PokemonServiceImplTest {
 		for (PokemonDTO pokemonDTO : listadoPokemones) {
 			log.debug(pokemonDTO.toString());
 		}
+
+	}
+	
+	/**
+	 * Prueba para obtener el detalle del pokemon
+	 * @throws AplicacionExcepcion 
+	 */
+	@Test
+	public void debeObtenerDetallePokemon() throws AplicacionExcepcion {
+		
+		log.debug("Entrando a debeObtenerDetallePokemon");
+		
+		DetallePokemonDTO pokemonDTO =  pokemonService.obtenerDetallePokemon("https://pokeapi.co/api/v2/pokemon/1/");
+		
+		assertNotNull(pokemonDTO);
+		
+		log.debug(pokemonDTO.toString());
 		
 		
 		
 	}
+	
+	/**
+	 * Prueba para lanzar un excepcion al no encontrar el detalle del pokemon
+	 * @throws AplicacionExcepcion 
+	 */
+	@Test
+	public void debeObtenerExcepcion() throws AplicacionExcepcion {
+		
+		log.debug("Entrando a debeObtenerExcepcion");
+		
+		assertThrows(AplicacionExcepcion.class, () -> pokemonService.obtenerDetallePokemon("https://pokeapi.co/api/v2/pokemon/10000000/"), "Detalle pokemon no encontrado");
+		
+
+	}
+		
+		
+		
 }

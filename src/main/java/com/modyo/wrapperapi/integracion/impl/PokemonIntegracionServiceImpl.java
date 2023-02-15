@@ -4,6 +4,8 @@ import java.time.Duration;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
@@ -11,10 +13,12 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import com.modyo.wrapperapi.error.AplicacionExcepcion;
 import com.modyo.wrapperapi.integracion.PokemonIntegracionService;
 import com.modyo.wrapperapi.modelo.DetallePokemon;
+import com.modyo.wrapperapi.modelo.Evolution;
 import com.modyo.wrapperapi.modelo.FlavorText;
 import com.modyo.wrapperapi.modelo.Pokemons;
 import com.modyo.wrapperapi.modelo.Species;
@@ -82,9 +86,10 @@ public class PokemonIntegracionServiceImpl implements PokemonIntegracionService 
 		
 		if(log.isDebugEnabled())
 			log.debug("Entrando a PokemonIntegracionServiceImpl.obtenerDetallePokemon");
-		
+		DetallePokemon detallePokemon  = null;
+		try {
 		 
-		 DetallePokemon detallePokemon = this.webClient.get()
+			detallePokemon = this.webClient.get()
 							.uri(url)
 							.retrieve()
 							.bodyToMono(DetallePokemon.class)
@@ -94,7 +99,12 @@ public class PokemonIntegracionServiceImpl implements PokemonIntegracionService 
 									MensajeError.ERROR_TIEMPO_ESPERA_OPERACION.getLLaveMensaje(), 
 									null, LocaleContextHolder.getLocale())))
 							.block();
-		
+			
+		} catch (WebClientResponseException e) {
+			
+			throw new AplicacionExcepcion(MensajeError.ERROR_NO_INFO_DETALLE);
+		}
+		 
 		return detallePokemon;
 	}
 
@@ -105,25 +115,34 @@ public class PokemonIntegracionServiceImpl implements PokemonIntegracionService 
 		if(log.isDebugEnabled())
 			log.debug("Entrando a PokemonIntegracionServiceImpl.obtenerDescripcion");
 		
-		Species resultado = this.webClient.get()
-							.uri(url)
-							.retrieve()
-							.bodyToMono(Species.class)
-							.map(species -> {
-								List<FlavorText> matches = species.getFlavor_text_entries()
-										.stream()
-										.filter( flavor -> flavor.getLanguage().getName().equals(Constantes.LANGUAGE))
-										.collect(Collectors.toList());
-								species.setFlavor_text_entries(matches);
-								return species;
-							})
-							.timeout(Duration.ofSeconds(5))
-							.onErrorMap(ReadTimeoutException.class, ex -> new AplicacionExcepcion(MensajeError.ERROR_TIEMPO_ESPERA_OPERACION))
-							.doOnError(WriteTimeoutException.class, ex -> log.error(messageSource.getMessage(
-									MensajeError.ERROR_TIEMPO_ESPERA_OPERACION.getLLaveMensaje(), 
-									null, LocaleContextHolder.getLocale())))
-							.block();
+		Species resultado = null;
 		
+		try {
+			
+			resultado = this.webClient.get()
+						.uri(url)
+						.retrieve()
+						.bodyToMono(Species.class)
+						.map(species -> {
+							List<FlavorText> matches = species.getFlavor_text_entries()
+									.stream()
+									.filter( flavor -> flavor.getLanguage().getName().equals(Constantes.LANGUAGE))
+									.collect(Collectors.toList());
+							species.setFlavor_text_entries(matches);
+							return species;
+						})
+						.timeout(Duration.ofSeconds(5))
+						.onErrorMap(ReadTimeoutException.class, ex -> new AplicacionExcepcion(MensajeError.ERROR_TIEMPO_ESPERA_OPERACION))
+						.doOnError(WriteTimeoutException.class, ex -> log.error(messageSource.getMessage(
+								MensajeError.ERROR_TIEMPO_ESPERA_OPERACION.getLLaveMensaje(), 
+								null, LocaleContextHolder.getLocale())))
+						.block();
+			
+		} catch (WebClientResponseException e) {
+			
+			throw new AplicacionExcepcion(MensajeError.ERROR_NO_INFO_DESCRIPCIONES);
+		}
+
 		return resultado;
 		
 	}
@@ -132,28 +151,31 @@ public class PokemonIntegracionServiceImpl implements PokemonIntegracionService 
 	/**
 	 * {@link PokemonIntegracionService#obtenerEvoluciones(String)}
 	 */
-	public void obtenerEvoluciones(String url) throws AplicacionExcepcion {
+	public String obtenerEvoluciones(String url) throws AplicacionExcepcion {
 		if(log.isDebugEnabled())
 			log.debug("Entrando a PokemonIntegracionServiceImpl.obtenerEvoluciones");
+		String evoluciones = null;
 		
-		String resultado = this.webClient.get()
-				.uri(url)
-				.retrieve()
-				.bodyToMono(String.class)
-				.timeout(Duration.ofSeconds(5))
-				.onErrorMap(ReadTimeoutException.class, ex -> new AplicacionExcepcion(MensajeError.ERROR_TIEMPO_ESPERA_OPERACION))
-				.doOnError(WriteTimeoutException.class, ex -> log.error(messageSource.getMessage(
-						MensajeError.ERROR_TIEMPO_ESPERA_OPERACION.getLLaveMensaje(), 
-						null, LocaleContextHolder.getLocale())))
-				.block();
-		log.debug(resultado);
+		try {
+			evoluciones = this.webClient.get()
+					.uri(url)
+					.retrieve()
+					.bodyToMono(String.class)
+					.timeout(Duration.ofSeconds(5))
+					.onErrorMap(ReadTimeoutException.class, ex -> new AplicacionExcepcion(MensajeError.ERROR_TIEMPO_ESPERA_OPERACION))
+					.doOnError(WriteTimeoutException.class, ex -> log.error(messageSource.getMessage(
+							MensajeError.ERROR_TIEMPO_ESPERA_OPERACION.getLLaveMensaje(), 
+							null, LocaleContextHolder.getLocale())))
+					.block();
+			
+		} catch (WebClientResponseException e) {
+			
+			throw new AplicacionExcepcion(MensajeError.ERROR_NO_INFO_DESCRIPCIONES);
+		}
+
+				
+		return evoluciones;
 	}
-
-
 	
-	//https://pokeapi.co/api/v2/pokemon-species/25
-	//flavor_text
-	//https://pokeapi.co/api/v2/evolution-chain/25
 	
-
 }

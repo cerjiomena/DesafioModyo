@@ -3,6 +3,7 @@ package com.modyo.wrapperapi.service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import com.modyo.wrapperapi.dto.DetallePokemonDTO;
 import com.modyo.wrapperapi.dto.PokemonDTO;
 import com.modyo.wrapperapi.error.AplicacionExcepcion;
 
@@ -15,5 +16,14 @@ public interface PokemonService {
 	 * @throws AplicacionExcepcion
 	 */
 	Page<PokemonDTO> obtenerListadoPokemonsPaginado(Pageable pageable) throws AplicacionExcepcion;
+	
+	
+	/**
+	 * Metodo utilizado para obtener el detalle del pokemon
+	 * @param url del detalle
+	 * @return Clase de transporte con ambos detalles.
+	 * @throws AplicacionExcepcion
+	 */
+	DetallePokemonDTO obtenerDetallePokemon(String url)  throws AplicacionExcepcion;
 
 }

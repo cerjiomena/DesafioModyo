@@ -73,9 +73,6 @@ public class PokemonRestController {
 		String mensaje = null;
 		Map<String, Object> response = new HashMap<>();
 		
-		log.debug("Pagina : " + currentPage);
-		log.debug("Tamanio: " + pageSize);
-		
 		response.put(Constantes.TIMESTAP, new Timestamp(System.currentTimeMillis()));
 		
 		
