@@ -8,6 +8,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -51,8 +52,7 @@ public class PokemonServiceImpl implements PokemonService {
 	/**
 	 * {@link PokemonService#obtenerListadoPokemonsPaginado(Pageable)}
 	 */
-	@CacheEvict(value = "listar-pokemons", allEntries = true)
-	@Scheduled(fixedRateString = "${caching.spring.pokemonListTTL}")
+	@Cacheable("listar-pokemons")
 	public Page<PokemonDTO> obtenerListadoPokemonsPaginado(Pageable pageable) throws AplicacionExcepcion {
 
 		Page<PokemonDTO> pages = null;
@@ -66,7 +66,7 @@ public class PokemonServiceImpl implements PokemonService {
 
 			listado = new ArrayList<PokemonDTO>();
 			
-			if(pokemons.getResults() != null && !pokemons.getResults().isEmpty()) {
+			if(pokemons.getResults() != null) {
 				
 				for (Pokemon pokemon : pokemons.getResults()) {
 
@@ -100,8 +100,6 @@ public class PokemonServiceImpl implements PokemonService {
 				pages = new PageImpl<PokemonDTO>(list, PageRequest.of(currentPage, pageSize),
 						Long.valueOf(listado.size()).longValue());	
 			}
-			
-			pages = Page.empty(pageable);
 
 		} 
 
@@ -111,8 +109,7 @@ public class PokemonServiceImpl implements PokemonService {
 	/**
 	 * {@link PokemonService#obtenerDetallePokemon(String)}
 	 */
-	@CacheEvict(value = "detalle-pokemon", allEntries = true)
-	@Scheduled(fixedRateString = "${caching.spring.pokemonDetailTTL}")
+	@Cacheable("detalle-pokemon")
 	public DetallePokemonDTO obtenerDetallePokemon(String url) throws AplicacionExcepcion {
 
 		this.isSpeciesNode = false;

@@ -77,6 +77,9 @@ public class PokemonRestController {
 		try {
 			pagina = pokemonService.obtenerListadoPokemonsPaginado(PageRequest.of(currentPage - 1, pageSize));
 			pokemons = pagina.getContent();
+			if(pokemons.isEmpty()) {
+				pagina = Page.empty();
+			}
 			response.put(Constantes.STATUS, HttpStatus.OK.value());
 	        response.put(Constantes.POKEMONS, pokemons);
 	        response.put(Constantes.CURRENT_PAGE, pagina.getNumber());
