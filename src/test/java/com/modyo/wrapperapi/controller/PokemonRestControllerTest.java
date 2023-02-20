@@ -48,7 +48,7 @@ public class PokemonRestControllerTest {
 	public void debeObtenerDetallePokemon() throws Exception {
 		log.debug("Entrando a debeObtenerListadoPaginado");
 		
-		 MvcResult result =  mockMvc.perform(post("/api/v1/challenge/obtenerDetalle").param("url", "https://pokeapi.co/api/v2/pokemon/2/"))
+		 MvcResult result =  mockMvc.perform(post("/api/v1/challenge/obtenerDetalle").param("id", "2"))
 		.andExpect(status().isOk()).andReturn();
 		
 		 MockHttpServletResponse response = result.getResponse();
@@ -67,7 +67,7 @@ public class PokemonRestControllerTest {
 	public void debeObtenerMensajeErrorEnDetallePokemon() throws Exception {
 		log.debug("Entrando a debeObtenerMensajeErrorEnDetallePokemon");
 		
-		 MvcResult result =  mockMvc.perform(post("/api/v1/challenge/obtenerDetalle").param("url", "https://pokeapi.co/api/v2/pokemon/1000000/"))
+		 MvcResult result =  mockMvc.perform(post("/api/v1/challenge/obtenerDetalle").param("id", "1000000"))
 		.andExpect(status().isOk()).andReturn();
 		
 		 MockHttpServletResponse response = result.getResponse();

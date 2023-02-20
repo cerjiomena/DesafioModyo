@@ -15,6 +15,9 @@ public class Constantes {
     public static final String LANGUAGE = "es";
     public static final String NODE_SPECIES = "species";
     public static final String DETAIL_POKEMON = "detail";
-    
+    public static final String PATTERN_ID_URL = "/-?\\d+/";
+    public static final String SLASH_URL = "\\/";
+    public static final String EMPTY_STRING = "";
+    public static final String SLASH = "/";
 
 }

@@ -4,6 +4,10 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -45,7 +49,7 @@ public class PokemonIntegracionServiceImplTest {
 	public void debeObtenerDetallePokemon() throws AplicacionExcepcion {
 		log.debug("Entrando a debeObtenerDetallePokemon");
 		
-		DetallePokemon detallePokemon = pokemonService.obtenerDetallePokemon("https://pokeapi.co/api/v2/pokemon/1/");
+		DetallePokemon detallePokemon = pokemonService.obtenerDetallePokemon("3");
 		assertNotNull(detallePokemon);
 		log.debug(detallePokemon.toString());
 		
@@ -59,7 +63,7 @@ public class PokemonIntegracionServiceImplTest {
 	public void debeObtenerDescripcionesPokemon() throws AplicacionExcepcion {
 		log.debug("Entrando a debeObtenerDescripcionesPokemon");
 		
-		Species species = pokemonService.obtenerDescripcion("https://pokeapi.co/api/v2/pokemon-species/25");
+		Species species = pokemonService.obtenerDescripcion("25");
 		assertNotNull(species);
 		log.debug(species.toString());
 		
@@ -73,8 +77,10 @@ public class PokemonIntegracionServiceImplTest {
 	public void debeObtenerEvolucionesPokemon() throws AplicacionExcepcion {
 		log.debug("Entrando a debeObtenerEvolucionesPokemon");
 		
-		String evoluciones = pokemonService.obtenerEvoluciones("https://pokeapi.co/api/v2/evolution-chain/25");
+		String evoluciones = pokemonService.obtenerEvoluciones("3");
+		log.debug("*****************************");
 		assertNotNull(evoluciones);
+		log.debug(evoluciones.toString());
 	}
 	
 	/**
@@ -86,7 +92,7 @@ public class PokemonIntegracionServiceImplTest {
 		
 		log.debug("Entrando a debeObtenerExcepcionEnDetalle");
 		
-		assertThrows(AplicacionExcepcion.class, () -> pokemonService.obtenerDetallePokemon("https://pokeapi.co/api/v2/pokemon/10000000/"), "Detalle pokemon no encontrado");
+		assertThrows(AplicacionExcepcion.class, () -> pokemonService.obtenerDetallePokemon("10000000"), "Detalle pokemon no encontrado");
 		
 
 	}
@@ -100,7 +106,7 @@ public class PokemonIntegracionServiceImplTest {
 		
 		log.debug("Entrando a debeObtenerExcepcionEnDetalle");
 		
-		assertThrows(AplicacionExcepcion.class, () -> pokemonService.obtenerDescripcion("https://pokeapi.co/api/v2/pokemon-species/10000000/"), "Detalle pokemon no encontrado");
+		assertThrows(AplicacionExcepcion.class, () -> pokemonService.obtenerDescripcion("10000000"), "Detalle pokemon no encontrado");
 		
 
 	}
@@ -114,9 +120,10 @@ public class PokemonIntegracionServiceImplTest {
 		
 		log.debug("Entrando a debeObtenerExcepcionEnEvoluciones");
 		
-		assertThrows(AplicacionExcepcion.class, () -> pokemonService.obtenerEvoluciones("https://pokeapi.co/api/v2/evolution-chain/10000000/"), "Evoluciones de pokemon no encontrados");
+		assertThrows(AplicacionExcepcion.class, () -> pokemonService.obtenerEvoluciones("10000000"), "Evoluciones de pokemon no encontrados");
 		
 
 	}
+	
 
 }

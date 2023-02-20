@@ -106,7 +106,7 @@ public class PokemonRestController {
 	@PostMapping(value = "obtenerDetalle", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiOperation(value = "Servicio web para obtener el detalle del pokemon")
 	public ResponseEntity<Map<String, Object>> obtenerDetallePokemon(HttpServletRequest request,
-			@ApiParam(value = "url", required = true, example = "https://pokeapi.co/api/v2/pokemon/2/") @RequestParam("url") Optional<String> url){
+			@ApiParam(value = "id", required = true, example = "1") @RequestParam("id") Optional<String> id){
 		
 		if(log.isDebugEnabled())
 			log.debug(">> Entrando a PokemonRestController.obtenerDetallePokemon << ");
@@ -120,7 +120,7 @@ public class PokemonRestController {
 		
 		try {
 			
-			DetallePokemonDTO detallePokemonDTO = pokemonService.obtenerDetallePokemon(url.get());
+			DetallePokemonDTO detallePokemonDTO = pokemonService.obtenerDetallePokemon(id.get());
 			response.put(Constantes.STATUS, HttpStatus.OK.value());
 	        response.put(Constantes.DETAIL_POKEMON, detallePokemonDTO);
 	       

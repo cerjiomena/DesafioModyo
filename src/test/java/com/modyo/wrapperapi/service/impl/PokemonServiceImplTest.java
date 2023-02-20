@@ -68,7 +68,7 @@ public class PokemonServiceImplTest {
 		
 		log.debug("Entrando a debeObtenerDetallePokemon");
 		
-		DetallePokemonDTO pokemonDTO =  pokemonService.obtenerDetallePokemon("https://pokeapi.co/api/v2/pokemon/1/");
+		DetallePokemonDTO pokemonDTO =  pokemonService.obtenerDetallePokemon("3");
 		
 		assertNotNull(pokemonDTO);
 		
@@ -87,7 +87,7 @@ public class PokemonServiceImplTest {
 		
 		log.debug("Entrando a debeObtenerExcepcion");
 		
-		assertThrows(AplicacionExcepcion.class, () -> pokemonService.obtenerDetallePokemon("https://pokeapi.co/api/v2/pokemon/10000000/"), "Detalle pokemon no encontrado");
+		assertThrows(AplicacionExcepcion.class, () -> pokemonService.obtenerDetallePokemon("10000000"), "Detalle pokemon no encontrado");
 		
 
 	}

@@ -40,6 +40,13 @@ public class PokemonIntegracionServiceImpl implements PokemonIntegracionService 
 	@Value("${rest.pokemon.operation.get}")
 	private String uriPokemon;
 	
+	
+	@Value("${rest.pokemon.operation.get.species}")
+	private String uriSpecies;
+	
+	@Value("${rest.pokemon.operation.get.evolutions}")
+	private String uriEvolutions;
+	
 	private WebClient webClient;
 	
     @Autowired
@@ -86,7 +93,7 @@ public class PokemonIntegracionServiceImpl implements PokemonIntegracionService 
 	/**
 	 * {@link PokemonIntegracionService#obtenerDetallePokemon(String)}
 	 */
-	public DetallePokemon obtenerDetallePokemon(String url) throws AplicacionExcepcion {
+	public DetallePokemon obtenerDetallePokemon(String id) throws AplicacionExcepcion {
 		
 		if(log.isDebugEnabled())
 			log.debug("Entrando a PokemonIntegracionServiceImpl.obtenerDetallePokemon");
@@ -94,7 +101,7 @@ public class PokemonIntegracionServiceImpl implements PokemonIntegracionService 
 		try {
 		 
 			detallePokemon = this.webClient.get()
-							.uri(url)
+							.uri(uriPokemon + Constantes.SLASH + id)
 							.retrieve()
 							.bodyToMono(DetallePokemon.class)
 							.timeout(Duration.ofSeconds(5))
@@ -115,7 +122,7 @@ public class PokemonIntegracionServiceImpl implements PokemonIntegracionService 
 	/**
 	 * {@link PokemonIntegracionService#obtenerDescripcion(String)}
 	 */
-	public Species obtenerDescripcion(String url) throws AplicacionExcepcion {
+	public Species obtenerDescripcion(String id) throws AplicacionExcepcion {
 		if(log.isDebugEnabled())
 			log.debug("Entrando a PokemonIntegracionServiceImpl.obtenerDescripcion");
 		
@@ -124,7 +131,7 @@ public class PokemonIntegracionServiceImpl implements PokemonIntegracionService 
 		try {
 			
 			resultado = this.webClient.get()
-						.uri(url)
+						.uri(uriSpecies + Constantes.SLASH + id)
 						.retrieve()
 						.bodyToMono(Species.class)
 						.map(species -> {
@@ -155,14 +162,14 @@ public class PokemonIntegracionServiceImpl implements PokemonIntegracionService 
 	/**
 	 * {@link PokemonIntegracionService#obtenerEvoluciones(String)}
 	 */
-	public String obtenerEvoluciones(String url) throws AplicacionExcepcion {
+	public String obtenerEvoluciones(String id) throws AplicacionExcepcion {
 		if(log.isDebugEnabled())
 			log.debug("Entrando a PokemonIntegracionServiceImpl.obtenerEvoluciones");
 		String evoluciones = null;
 		
 		try {
 			evoluciones = this.webClient.get()
-					.uri(url)
+					.uri(uriEvolutions + Constantes.SLASH + id)
 					.retrieve()
 					.bodyToMono(String.class)
 					.timeout(Duration.ofSeconds(5))

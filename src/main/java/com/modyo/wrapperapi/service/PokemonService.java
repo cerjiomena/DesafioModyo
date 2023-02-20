@@ -20,10 +20,10 @@ public interface PokemonService {
 	
 	/**
 	 * Metodo utilizado para obtener el detalle del pokemon
-	 * @param url del detalle
+	 * @param id identificador del pokemon
 	 * @return Clase de transporte con ambos detalles.
 	 * @throws AplicacionExcepcion
 	 */
-	DetallePokemonDTO obtenerDetallePokemon(String url)  throws AplicacionExcepcion;
+	DetallePokemonDTO obtenerDetallePokemon(String id)  throws AplicacionExcepcion;
 
 }

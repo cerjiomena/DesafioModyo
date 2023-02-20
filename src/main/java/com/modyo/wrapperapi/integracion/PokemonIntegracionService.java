@@ -16,29 +16,29 @@ public interface PokemonIntegracionService {
 	
 	/**
 	 * Metodo  encargado en obtener el detalle del pokemon
-	 * @param url del servicio
+	 * @param id identificador del pokemon
 	 * @return Objeto detalle Pokemon
 	 * @throws AplicacionExcepcion
 	 */
-	DetallePokemon obtenerDetallePokemon(String url) throws AplicacionExcepcion;
+	DetallePokemon obtenerDetallePokemon(String id) throws AplicacionExcepcion;
 	
 	
 	/**
 	 * Metodo utilizado para obtener la descripcion de los pokemons
-	 * @param url del servicio
+	 * @param id del pokemon
 	 * @return Objeto especies con el texto descriptivo
 	 * @throws AplicacionExcepcion
 	 */
-	Species obtenerDescripcion(String url) throws AplicacionExcepcion;
+	Species obtenerDescripcion(String id) throws AplicacionExcepcion;
 	
 	
 	/**
 	 * Metodo utilizado para obtener la cadena de evoluciones en String posteriormente para ser tratada la informacion
-	 * @param url del servicio
+	 * @param id del pokemon
 	 * @return Cadena de evoluciones en formato String
 	 * @throws AplicacionExcepcion
 	 */
-	String obtenerEvoluciones(String url) throws AplicacionExcepcion;
+	String obtenerEvoluciones(String id) throws AplicacionExcepcion;
 	
 	
 

@@ -3,17 +3,17 @@ package com.modyo.wrapperapi.service.impl;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.modyo.wrapperapi.dto.DetallePokemonDTO;
@@ -30,6 +30,9 @@ import com.modyo.wrapperapi.modelo.Type;
 import com.modyo.wrapperapi.service.PokemonService;
 import com.modyo.wrapperapi.util.Constantes;
 import com.modyo.wrapperapi.util.MensajeError;
+import com.modyo.wrapperapi.util.Util;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Clase de servicio para tratar la informacion de los pokemons
@@ -38,6 +41,7 @@ import com.modyo.wrapperapi.util.MensajeError;
  *
  */
 @Service
+@Slf4j
 public class PokemonServiceImpl implements PokemonService {
 
 	@Autowired
@@ -61,7 +65,7 @@ public class PokemonServiceImpl implements PokemonService {
 		int startItem = currentPage * pageSize;
 		List<PokemonDTO> list;
 		Pokemons pokemons = pokemonIntegracionService.obtenerListadoPaginadoPokemons();
-
+		
 		if (pokemons != null) {
 
 			listado = new ArrayList<PokemonDTO>();
@@ -70,8 +74,9 @@ public class PokemonServiceImpl implements PokemonService {
 				
 				for (Pokemon pokemon : pokemons.getResults()) {
 
-					DetallePokemon detallePokemon = pokemonIntegracionService.obtenerDetallePokemon(pokemon.getUrl());
 					PokemonDTO pokemonDTO = new PokemonDTO();
+					pokemonDTO.setId(Util.obtenerId(pokemon.getUrl()));
+					DetallePokemon detallePokemon = pokemonIntegracionService.obtenerDetallePokemon(pokemonDTO.getId());
 					pokemonDTO.setNombre(detallePokemon.getName());
 					pokemonDTO.setPeso(detallePokemon.getWeight());
 					List<String> tipos = new ArrayList<String>();
@@ -85,8 +90,6 @@ public class PokemonServiceImpl implements PokemonService {
 					}
 					pokemonDTO.setFoto(detallePokemon.getSprites().getFront_default());
 					pokemonDTO.setHabilidades(habilidades.toString());
-					pokemonDTO.setUrlDetalle(pokemon.getUrl());
-
 					listado.add(pokemonDTO);
 				}
 
@@ -110,17 +113,17 @@ public class PokemonServiceImpl implements PokemonService {
 	 * {@link PokemonService#obtenerDetallePokemon(String)}
 	 */
 	@Cacheable("detalle-pokemon")
-	public DetallePokemonDTO obtenerDetallePokemon(String url) throws AplicacionExcepcion {
+	public DetallePokemonDTO obtenerDetallePokemon(String id) throws AplicacionExcepcion {
 
 		this.isSpeciesNode = false;
 		List<String> descripciones = null;
 		Species species = null;
 
-		DetallePokemon detallePokemon = pokemonIntegracionService.obtenerDetallePokemon(url);
+		DetallePokemon detallePokemon = pokemonIntegracionService.obtenerDetallePokemon(id);
 		
 		if(detallePokemon != null) {
-			species = pokemonIntegracionService.obtenerDescripcion(detallePokemon.getSpecies().getUrl());
-			
+			species = pokemonIntegracionService.obtenerDescripcion(id);
+				
 			if(species != null) {
 				
 				List<FlavorText> listado = species.getFlavor_text_entries();
@@ -129,7 +132,7 @@ public class PokemonServiceImpl implements PokemonService {
 					descripciones.add(flavorText.getFlavor_text());
 				}
 
-				String evolucion = pokemonIntegracionService.obtenerEvoluciones(species.getEvolution_chain().getUrl());
+				String evolucion = pokemonIntegracionService.obtenerEvoluciones(Util.obtenerId(species.getEvolution_chain().getUrl()));
 				
 				if(evolucion != null) {
 
